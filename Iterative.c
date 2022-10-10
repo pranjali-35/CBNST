@@ -20,38 +20,30 @@ float df(float x){              //differentiation of x
 }
 
 int main(){
-	float x;
+	float x0, x, allowed_err;
 	printf("Enter the value of x0 : ");
-	scanf("%f",&x);
+	scanf("%f",&x0);
 
-    if(fabs(df(x)) < 1){
-        printf("Function is correct!!\n");
-        float allowed_err;
-        printf("Enter the allowed error : ");
-        scanf("%f",&allowed_err);
-
-        int flag = 0,it = 1;
-        float x1;
-        do{
-            x1 = g(x);
-            printf("Iteration %d : x = %f\n",it,x1);
-
-            if(fabs(x1-x) <= allowed_err){
-                flag = 1;
-                printf("Root of the equation is %f after %d iterations\n",x1,it);
-            }
-            else{
-                x = x1;
-            }it++;
-            
-        }while(flag != 1);
-
-    }
-    
-    else{
-        printf("Change the function\n");
-        exit(0);
+    if(df(x0) >= 1){
+        printf("Failed!!!\n");
+        return 0;
     }
 
+    printf("Enter the allowed error : ");
+    scanf("%f",&allowed_err);
+
+    int it = 1;
+    while(1){
+        x = g(x0);
+        if(fabs(x-x0) < allowed_err){
+            printf("Iteration %d : x = %f\n",it,x);
+            printf("Root is %f\n",x);
+            break;
+        }else{
+            printf("Iteration %d : x = %f\n",it,x);
+            x0 = x;
+            it++;
+        }
+    }
 	return 0;
 }
